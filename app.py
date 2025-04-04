@@ -2,25 +2,33 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+car_data = pd.read_csv("vehicles_us.csv")  # leer los datos
+
 st.header("Análisis de datos de coches usados")  # encabezado de la aplicación
 st.subheader("Visualización de datos de coches usados")  # subtítulo de la aplicación
 
+build_histogram = st.checkbox(
+    "Construir histograma"
+)  # crear una casilla de verificación
 
-car_data = pd.read_csv("vehicles_us.csv")  # leer los datos
-hist_button = st.button("Construir histograma")  # crear un botón
-
-if hist_button:  # al hacer clic en el botón
-    # escribir un mensaje
+if build_histogram:  # al hacer clic en la casilla
     st.write(
-        "Creación de un histograma para el conjunto de datos de anuncios de venta de coches"
-    )
-    # crear un histograma
-    fig = px.histogram(car_data, x="odometer")
-    # mostrar un gráfico Plotly interactivo
-    st.plotly_chart(fig, use_container_width=True)
+        "Creación de un histograma para ver la cantidad de coches por precio"
+    )  # escribir un mensaje
+    fig = px.histogram(car_data, x="price")  # crear un histograma
+    st.plotly_chart(
+        fig, use_container_width=True
+    )  # mostrar un gráfico Plotly interactivo
 
-# crear una casilla de verificación
-build_histogram = st.checkbox("Construir un histograma")
+build_scatter = st.checkbox("Construir un diagrama de dispersion")
 
-if build_histogram:  # si la casilla de verificación está seleccionada
-    st.write("Construir un histograma para la columna odómetro")
+if build_scatter:
+    st.write(
+        "Creación de un diagrama de dispersión para ver la relación entre el precio y el año del modelo"
+    )  # escribir un mensaje
+    fig = px.scatter(
+        car_data, x="price", y="model_year"
+    )  # crear un diagrama de dispersión
+    st.plotly_chart(
+        fig, use_container_width=True
+    )  # mostrar un gráfico Plotly interactivo
